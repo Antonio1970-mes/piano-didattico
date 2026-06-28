@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Piano Didattico</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Fraunces:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F6F2;--surface:#fff;--border:#E4E2DC;
+  --text:#1A1916;--muted:#7A786F;--hint:#B0AEA6;
+  --accent:#3B5BDB;--accent-bg:#EEF2FF;--accent-border:#C5D0F5;
+  --green:#2F9E44;--green-bg:#EBFBEE;--green-border:#8CE99A;
+  --amber:#E67700;--amber-bg:#FFF3BF;--amber-border:#FFE08A;
+  --red:#C92A2A;--red-bg:#FFF5F5;--red-border:#FFCCCC;
+  --r:10px;--rs:6px;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;min-height:100vh}
+
+/* BANNER */
+.banner{background:var(--amber-bg);border-bottom:1px solid var(--amber-border);padding:10px 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;font-size:13px;color:var(--amber)}
+.banner strong{font-weight:600}
+.banner-actions{display:flex;gap:8px;flex-shrink:0}
+.banner-btn{padding:5px 14px;border-radius:99px;font-size:12px;font-weight:500;font-family:inherit;cursor:pointer;border:1px solid var(--amber-border);background:var(--surface);color:var(--amber);transition:all .1s}
+.banner-btn:hover{background:var(--amber-bg)}
+.banner-btn.primary{background:var(--amber);color:#fff;border-color:var(--amber)}
+/* NAV */
+.topnav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;gap:0;height:52px;position:sticky;top:0;z-index:100}
+.brand{font-family:'Fraunces',serif;font-size:18px;font-weight:300;margin-right:2rem;white-space:nowrap}
+.nav-btn{padding:0 16px;height:52px;font-size:13px;font-weight:500;font-family:inherit;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap}
+.nav-btn:hover{color:var(--text)}
+.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.student-select{margin-left:auto;padding:6px 10px;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg);color:var(--text);font-size:13px;font-family:inherit;outline:none;min-width:140px}
+
+/* PAGES */
+.page{display:none;padding:2rem 3rem;max-width:900px;margin:0 auto}
+.page.active{display:block}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;margin-bottom:1rem}
+.card-title{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:1rem;color:var(--text)}
+
+/* FORMS */
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:5px}
+input[type=text],textarea,select{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg);color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border-color .15s}
+input[type=text]:focus,textarea:focus,select:focus{border-color:var(--accent)}
+textarea{resize:vertical;line-height:1.5}
+.field{margin-bottom:1rem}
+
+/* BUTTONS */
+.btn{padding:9px 20px;border-radius:var(--rs);font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;transition:all .15s;border:1px solid var(--border);background:var(--surface);color:var(--text)}
+.btn:hover{background:var(--bg)}
+.btn-primary{background:var(--text);color:#fff;border-color:var(--text)}
+.btn-primary:hover{opacity:.85}
+.btn-danger{background:var(--red-bg);color:var(--red);border-color:var(--red-border)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn-sm{padding:4px 12px;font-size:12px;border-radius:99px}
+
+/* PILLS */
+.pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:500}
+.pill-r{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+.pill-y{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
+.pill-g{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+
+/* LEVEL BUTTONS */
+.lv-btns{display:flex;gap:4px;flex-shrink:0}
+.lv-btn{padding:4px 10px;border-radius:99px;font-size:12px;font-weight:500;font-family:inherit;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .1s;white-space:nowrap}
+.lv-btn.r{background:var(--red-bg);color:var(--red);border-color:var(--red-border)}
+.lv-btn.y{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-border)}
+.lv-btn.g{background:var(--green-bg);color:var(--green);border-color:var(--green-border)}
+
+/* TABLE */
+.obj-table{width:100%;border-collapse:collapse}
+.obj-table tr{border-bottom:1px solid var(--border)}
+.obj-table tr:last-child{border-bottom:none}
+.obj-table td{padding:9px 0;vertical-align:middle}
+.obj-label{font-size:14px;color:var(--text);padding-right:1rem}
+
+/* PROGRESS */
+.prog-row{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:1.5rem}
+.prog-bar{flex:1;height:4px;background:var(--border);border-radius:99px;overflow:hidden}
+.prog-fill{height:100%;background:var(--green);border-radius:99px;transition:width .4s}
+.prog-pct{font-size:13px;font-weight:500;color:var(--green);min-width:32px;text-align:right}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+
+/* TABS */
+.tab-nav{display:flex;border-bottom:1px solid var(--border);margin-bottom:1.5rem}
+.tab-btn{padding:8px 18px;font-size:13px;font-weight:500;font-family:inherit;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);cursor:pointer;transition:all .15s;margin-bottom:-1px}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* EMPTY */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 2rem;text-align:center;gap:8px}
+.empty-icon{font-size:32px;opacity:.2}
+.empty-title{font-size:15px;font-weight:500;color:var(--muted)}
+.empty-sub{font-size:13px;color:var(--hint);max-width:260px;line-height:1.5}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(10px);background:var(--text);color:#fff;padding:10px 20px;border-radius:var(--r);font-size:13px;font-weight:500;opacity:0;transition:all .25s;pointer-events:none;z-index:999}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* SPINNER */
+.spinner{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-row{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:14px;padding:2rem 0}
+
+/* PIANO OUTPUT */
+.piano-out{font-size:14px;line-height:1.8;color:var(--text)}
+.piano-out h3{font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin:1.5rem 0 .5rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.piano-out h3:first-child{margin-top:0;padding-top:0;border-top:none}
+.piano-out p{margin-bottom:.4rem;color:var(--muted)}
+.piano-out strong{color:var(--text);font-weight:600}
+
+/* STORICO */
+.session-item{border-left:2px solid var(--border);padding:.75rem 0 .75rem 1rem;margin-bottom:.5rem;position:relative}
+.session-item::before{content:'';position:absolute;left:-5px;top:1rem;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.session-date{font-size:12px;color:var(--hint);margin-bottom:4px}
+.session-changes{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+
+/* CHART */
+.chart-wrap{overflow-x:auto}
+.chart-grid{display:grid;gap:8px;margin-top:1rem}
+.chart-row{display:flex;align-items:center;gap:8px;font-size:12px}
+.chart-label{width:200px;color:var(--muted);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chart-bar-wrap{flex:1;height:16px;background:var(--bg);border-radius:4px;overflow:hidden;position:relative}
+.chart-bar{height:100%;border-radius:4px;transition:width .4s}
+.chart-bar.r{background:var(--red-bg);border:1px solid var(--red-border)}
+.chart-bar.y{background:var(--amber-bg);border:1px solid var(--amber-border)}
+.chart-bar.g{background:var(--green-bg);border:1px solid var(--green-border)}
+.chart-val{width:80px;font-size:11px;color:var(--muted);text-align:right}
+
+/* DROP ZONE */
+.drop-zone{border:2px dashed var(--border);border-radius:var(--r);padding:2rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);position:relative}
+.drop-zone:hover,.drop-zone.drag-over{border-color:var(--accent);background:var(--accent-bg)}
+.drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop-zone-icon{font-size:32px;margin-bottom:8px;opacity:.4}
+.drop-zone-text{font-size:14px;color:var(--muted)}
+.drop-zone-sub{font-size:12px;color:var(--hint);margin-top:4px}
+.drop-zone.loaded{border-color:var(--green);border-style:solid;background:var(--green-bg)}
+.drop-zone.loaded .drop-zone-icon{opacity:1}
+/* STUDENT LIST */
+.student-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.student-name{font-size:15px;font-weight:500}
+.student-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.student-actions{display:flex;gap:8px}
+
+/* MATERIE CHIPS */
+.materie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:8px;margin-bottom:1.5rem}
+.app-chip{border:1px solid var(--border);border-radius:99px;padding:4px 12px;font-size:12px;font-weight:500;cursor:pointer;background:var(--surface);color:var(--muted);transition:all .12s;user-select:none;display:inline-block}
+.app-chip:hover{background:var(--bg);color:var(--text)}
+.app-chip.sel{border-color:#185FA5;background:var(--accent-bg);color:var(--accent)}
+.mat-chip{border:1px solid var(--border);border-radius:var(--rs);padding:7px 12px;font-size:13px;cursor:pointer;background:var(--surface);color:var(--muted);transition:all .12s;user-select:none}
+.mat-chip:hover{background:var(--bg);color:var(--text)}
+.mat-chip.sel{border-color:#185FA5;background:var(--accent-bg);color:var(--accent);font-weight:500}
+
+/* PRINT */
+@media print {
+  .topnav, .banner, #piano-config, .tab-nav, #gen-row, .btn, .nav-btn, .student-select { display:none!important; }
+  .page { display:block!important; padding:0; margin:0; }
+  .print-doc { display:block!important; }
+  body { background:#fff; font-size:12pt; }
+  .print-page { page-break-after:always; padding:1.5cm; min-height:27cm; }
+  .print-page:last-child { page-break-after:avoid; }
+}
+.print-doc { display:none; }
+
+/* DOC TECNICO */
+.doc-tec-page { background:#fff; border:1px solid var(--border); border-radius:var(--r); padding:2rem; margin-bottom:1rem; }
+.doc-tec-header { border-bottom:2px solid var(--text); padding-bottom:1rem; margin-bottom:1.5rem; display:flex; justify-content:space-between; align-items:flex-end; }
+.doc-tec-title { font-size:20px; font-weight:600; }
+.doc-tec-meta { font-size:12px; color:var(--muted); text-align:right; line-height:1.6; }
+.doc-tec-section { margin-bottom:1rem; }
+.doc-tec-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin-bottom:4px; }
+.doc-tec-value { font-size:14px; color:var(--text); line-height:1.6; }
+.doc-tec-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem; }
+.doc-tec-badge { display:inline-block; padding:3px 10px; border-radius:99px; font-size:11px; font-weight:600; background:var(--accent-bg); color:var(--accent); border:1px solid var(--accent-border); margin-bottom:.5rem; }
+
+/* DOC OPERATIVO */
+.doc-op-page { background:#fff; border:1px solid var(--border); border-radius:var(--r); padding:2rem; margin-bottom:1rem; }
+.doc-op-materia-bar { border-radius:var(--rs); padding:.75rem 1.25rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:12px; }
+.doc-op-materia-icon { font-size:28px; }
+.doc-op-materia-name { font-size:22px; font-weight:700; color:#fff; }
+.doc-op-materia-giorno { font-size:13px; color:rgba(255,255,255,.8); }
+.doc-op-block { border:2px solid var(--border); border-radius:var(--r); padding:1rem 1.25rem; margin-bottom:.75rem; display:flex; gap:1rem; align-items:flex-start; }
+.doc-op-block-icon { font-size:28px; flex-shrink:0; width:40px; text-align:center; }
+.doc-op-block-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:4px; }
+.doc-op-block-text { font-size:15px; color:var(--text); line-height:1.6; font-weight:500; }
+.doc-op-timer { display:inline-flex; align-items:center; gap:6px; background:var(--bg); border:1px solid var(--border); border-radius:99px; padding:4px 12px; font-size:13px; font-weight:600; color:var(--text); margin-top:.5rem; }
+.doc-op-footer { border-top:1px solid var(--border); margin-top:1rem; padding-top:.75rem; display:flex; align-items:center; gap:8px; }
+.doc-op-footer-label { font-size:11px; color:var(--muted); }
+.doc-op-rinforzo { font-size:13px; font-weight:500; color:var(--green); }
+.export-bar { display:flex; gap:8px; margin-bottom:1.5rem; align-items:center; flex-wrap:wrap; }
+.export-bar span { font-size:13px; color:var(--muted); }
+
+/* SECTION HEADER */
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.sec-title{font-family:'Fraunces',serif;font-size:24px;font-weight:300;letter-spacing:-.3px}
+.sec-title em{font-style:italic;color:var(--muted)}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+</head>
+<body>
+
+<nav class="topnav">
+  <span class="brand">PianoDidattico</span>
+  <button class="nav-btn active" onclick="goPage('piano',this)">Piano del giorno</button>
+  <button class="nav-btn" onclick="goPage('storico',this)">Storico</button>
+  <button class="nav-btn" onclick="goPage('alunni',this)">Alunni</button>
+</nav>
+
+<!-- BANNER PROMEMORIA -->
+<div class="banner" id="reminder-banner" style="display:none">
+  <span>⏰ <strong id="reminder-text"></strong> — È il momento di aggiornare i livelli raggiunti.</span>
+  <div class="banner-actions">
+    <button class="banner-btn primary" onclick="goToFeedback()">Aggiorna ora</button>
+    <button class="banner-btn" onclick="dismissBanner()">Ricordamelo dopo</button>
+  </div>
+</div>
+
+<!-- PAGE: PIANO -->
+<div class="page active" id="page-piano">
+  <div class="sec-header">
+    <div class="sec-title" id="piano-title">Piano del giorno <em id="piano-day"></em></div>
+    <div style="display:flex;align-items:center;gap:1rem">
+      <select class="student-select" id="student-select" onchange="cambiaAlunno()" style="margin-left:0">
+        <option value="">— Seleziona alunno —</option>
+      </select>
+      <span style="font-size:12px;color:var(--hint)" id="last-saved"></span>
+    </div>
+  </div>
+
+  <div id="piano-no-student" class="empty">
+    <div class="empty-icon">👤</div>
+    <div class="empty-title">Nessun alunno selezionato</div>
+    <div class="empty-sub">Seleziona un alunno dal menu in alto o creane uno nuovo.</div>
+  </div>
+
+  <div id="piano-content" style="display:none">
+    <!-- Configurazione giorno -->
+    <div class="card" style="margin-bottom:1rem">
+      <div class="grid-2" style="margin-bottom:1rem">
+        <div class="field" style="margin:0">
+          <label>Giorno</label>
+          <select id="giorno">
+            <option>Lunedì</option><option>Martedì</option><option>Mercoledì</option>
+            <option>Giovedì</option><option>Venerdì</option><option>Sabato</option>
+          </select>
+        </div>
+        <div class="field" style="margin:0">
+          <label>Periodo</label>
+          <input type="text" id="settimana" placeholder="es. fine maggio, settimana 3">
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:.75rem">
+        <label>Materie del giorno</label>
+        <div class="materie-grid" id="materie-chips"></div>
+      </div>
+      <div class="field" style="margin:0">
+        <label>Note per oggi</label>
+        <textarea id="note" rows="2" placeholder="es. PB è agitato, c'è un'uscita..."></textarea>
+      </div>
+    </div>
+
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="showTab('livelli',this)">Livelli obiettivi</button>
+      <button class="tab-btn" onclick="showTab('output',this)" id="tab-output-btn">Piano generato</button>
+      <button class="tab-btn" onclick="showTab('feedback',this)">Come è andata</button>
+    </div>
+
+    <!-- Tab livelli -->
+    <div class="tab-panel active" id="tab-livelli">
+      <div id="livelli-empty" class="empty">
+        <div class="empty-icon">📋</div>
+        <div class="empty-title">Seleziona le materie del giorno</div>
+      </div>
+      <div id="livelli-content" style="display:none">
+        <div class="prog-row">
+          <span style="font-size:13px;color:var(--muted)">Obiettivi raggiunti</span>
+          <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+          <span class="prog-pct" id="prog-pct">0%</span>
+        </div>
+        <div id="livelli-blocks"></div>
+      </div>
+      <div style="margin-top:1rem;display:flex;gap:8px;flex-wrap:wrap" id="gen-row" style="display:none">
+        <button class="btn btn-primary" id="gen-btn" onclick="genera()" disabled>Genera piano del giorno</button>
+      </div>
+    </div>
+
+    <!-- Tab output -->
+    <div class="tab-panel" id="tab-output">
+      <div id="output-empty" class="empty">
+        <div class="empty-icon">✨</div>
+        <div class="empty-title">Il piano apparirà qui</div>
+        <div class="empty-sub">Seleziona le materie, imposta i livelli e genera.</div>
+      </div>
+      <div id="output-content" style="display:none"></div>
+      
+      <!-- Export bar -->
+      <div id="export-bar" style="display:none" class="export-bar">
+        <span>Esporta piano:</span>
+        <button class="btn btn-sm" onclick="stampaTecnico()">📄 PDF Tecnico (insegnante)</button>
+        <button class="btn btn-sm" onclick="stampaOperativo()">🎨 PDF Operativo (alunno)</button>
+      </div>
+
+      <!-- Documento tecnico per stampa -->
+      <div id="doc-tecnico" style="display:none"></div>
+      
+      <!-- Documento operativo per stampa -->
+      <div id="doc-operativo" style="display:none"></div>
+    </div>
+
+    <!-- Tab feedback -->
+    <div class="tab-panel" id="tab-feedback">
+      <div id="feedback-empty" class="empty">
+        <div class="empty-icon">💬</div>
+        <div class="empty-title">Prima genera il piano</div>
+        <div class="empty-sub">Dopo la lezione torna qui per aggiornare i livelli.</div>
+      </div>
+      <div id="feedback-content" style="display:none">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:1rem">Indica com'è andata — i livelli si aggiornano automaticamente.</p>
+        <div id="feedback-blocks"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:1rem">
+          <button class="btn btn-primary" onclick="salvaFeedback()">Salva aggiornamenti</button>
+          <span id="save-msg" style="font-size:13px;color:var(--green);display:none">✓ Salvato</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: STORICO -->
+<div class="page" id="page-storico">
+  <div class="sec-header">
+    <div class="sec-title">Storico <em id="storico-name"></em></div>
+  </div>
+  <div id="storico-no-student" class="empty">
+    <div class="empty-icon">📅</div>
+    <div class="empty-title">Seleziona un alunno</div>
+  </div>
+  <div id="storico-content" style="display:none">
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="showTabS('timeline',this)">Timeline sessioni</button>
+      <button class="tab-btn" onclick="showTabS('grafici',this)">Progressi per obiettivo</button>
+    </div>
+    <div class="tab-panel active" id="tab-timeline">
+      <div id="timeline-list"></div>
+    </div>
+    <div class="tab-panel" id="tab-grafici">
+      <div id="grafici-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: ALUNNI -->
+<div class="page" id="page-alunni">
+  <div class="sec-header">
+    <div class="sec-title">Gestione alunni</div>
+    <button class="btn btn-primary" onclick="showNewStudent()">+ Nuovo alunno</button>
+  </div>
+  <div id="student-list"></div>
+
+  <!-- Form nuovo/modifica alunno -->
+  <div id="student-form" style="display:none">
+    <div class="card">
+      <div class="card-title" id="form-title">Nuovo alunno</div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label>Nome / iniziali</label>
+          <input type="text" id="f-nome" placeholder="es. PB">
+        </div>
+        <div class="field">
+          <label>Classe</label>
+          <input type="text" id="f-classe" placeholder="es. 2A Liceo Artistico">
+        </div>
+      </div>
+      <div class="field">
+        <label>Approccio didattico</label>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px" id="approccio-chips">
+          <div class="app-chip" onclick="toggleApp(this)" data-val="CAA">CAA</div>
+          <div class="app-chip" onclick="toggleApp(this)" data-val="ABA">ABA</div>
+          <div class="app-chip" onclick="toggleApp(this)" data-val="TEACCH">TEACCH</div>
+          <div class="app-chip" onclick="toggleApp(this)" data-val="Montessori">Montessori</div>
+          <div class="app-chip" onclick="toggleApp(this)" data-val="Approccio narrativo">Narrativo</div>
+          <div class="app-chip" onclick="toggleApp(this)" data-val="Metodo Feuerstein">Feuerstein</div>
+        </div>
+        <input type="text" id="f-approccio-altro" placeholder="Altro approccio o note specifiche (opzionale)">
+      </div>
+      <div class="field">
+        <label>Framework scientifici di riferimento</label>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px" id="framework-chips">
+          <div class="app-chip" onclick="toggleChip(this)" data-val="Differenziazione didattica (D'Alonzo, Erickson 2017) — individualizzare, personalizzare e differenziare contenuti, processi e prodotti in base al profilo dell'alunno">Differenziazione didattica</div>
+          <div class="app-chip" onclick="toggleChip(this)" data-val="Universal Design for Learning / UDL (Dell'Anna, Erickson 2021) — progettare attività con molteplici mezzi di rappresentazione, azione ed espressione">UDL</div>
+          <div class="app-chip" onclick="toggleChip(this)" data-val="Task analysis (Erickson) — scomposizione del compito in micro-passi sequenziali con modellamento diretto e apprendimento senza errori">Task analysis</div>
+          <div class="app-chip" onclick="toggleChip(this)" data-val="CAA — Comunicazione Aumentativa Alternativa: supporti pittografici, tavole di comunicazione, simboli visivi per sostenere comprensione e produzione">CAA</div>
+          <div class="app-chip" onclick="toggleChip(this)" data-val="Autodeterminazione (Cottini, Erickson 2016) — promuovere scelte, autoregolazione e consapevolezza delle proprie capacità">Autodeterminazione</div>
+          <div class="app-chip" onclick="toggleChip(this)" data-val="Didattica cooperativa e laboratoriale (Erickson) — apprendimento mediato dai pari, peer tutoring, lavoro in piccolo gruppo strutturato">Didattica cooperativa</div>
+          <div class="app-chip" onclick="toggleChip(this)" data-val="PEI bio-psico-sociale ICF (Erickson) — attività ancorate alle 4 dimensioni: relazione, comunicazione/linguaggio, autonomia, cognitiva/apprendimento">PEI ICF 4 dimensioni</div>
+          <div class="app-chip" onclick="toggleChip(this)" data-val="Didattica delle differenze (Demo, Erickson 2015) — valorizzare le specificità dell'alunno come risorsa, non come eccezione">Didattica delle differenze</div>
+          <div class="app-chip" onclick="toggleChip(this)" data-val="Apprendimento senza errori / Errorless learning — strutturare il compito per minimizzare gli errori e massimizzare il successo, con prompt graduali e fading">Errorless learning</div>
+          <div class="app-chip" onclick="toggleChip(this)" data-val="Rinforzo positivo e token economy — sistema di gratificazione strutturato e prevedibile per consolidare comportamenti adattivi e motivazione">Token economy / Rinforzo</div>
+        </div>
+        <input type="text" id="f-framework-altro" placeholder="Altri framework o note (opzionale)">
+      </div>
+
+      <div class="field">
+        <label>Carica o incolla il PEI</label>
+        <div class="drop-zone" id="drop-zone" onclick="document.getElementById('pei-file-input').click()">
+          <input type="file" id="pei-file-input" accept=".docx,.txt" onchange="leggiFile(event)">
+          <div class="drop-zone-icon" id="drop-icon">📄</div>
+          <div class="drop-zone-text" id="drop-text">Trascina il file .docx del PEI qui</div>
+          <div class="drop-zone-sub" id="drop-sub">oppure clicca per selezionare il file</div>
+        </div>
+        <div style="text-align:center;margin:.5rem 0;font-size:12px;color:var(--hint)">— oppure incolla il testo —</div>
+        <textarea id="f-pei" rows="5" placeholder="Incolla qui il testo del PEI se non hai il file..."></textarea>
+      </div>
+
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn btn-primary" onclick="estraiDaPei()" id="estrai-btn">Estrai profilo e obiettivi dal PEI</button>
+        <div class="spinner" id="estrai-spinner" style="display:none"></div>
+        <span id="estrai-msg" style="font-size:13px;color:var(--green);display:none">✓ Estratto</span>
+      </div>
+
+      <div id="estratto-preview" style="display:none;margin-top:1.5rem">
+        <div style="border-top:1px solid var(--border);padding-top:1.5rem">
+          <div class="card-title">Profilo estratto — rivedi e modifica</div>
+          <div class="field">
+            <label>Profilo sintetico</label>
+            <textarea id="f-profilo" rows="4"></textarea>
+          </div>
+          <div class="card-title" style="margin-top:1rem">Obiettivi per materia</div>
+          <div id="f-obiettivi-container"></div>
+          <button class="btn" onclick="aggiungiMateria()" style="margin-top:.5rem">+ Aggiungi materia</button>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:1.5rem">
+          <button class="btn btn-primary" onclick="salvaAlunno()">Salva alunno</button>
+          <button class="btn" onclick="cancellaForm()">Annulla</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────
+let db = { students: {} }; // { id: { nome, classe, profilo, materie:{nome:[ob]}, livelli:{mat:{idx:lv}}, storico:[{date,changes:[]}] } }
+let currentId = null;
+let materieSelezionate = [];
+let pianoGenerato = false;
+let feedbackCorrente = {};
+let editingId = null;
+
+// ─── STORAGE ─────────────────────────────────────────────
+function save() { localStorage.setItem('pd-db', JSON.stringify(db)); }
+function load() { try { db = JSON.parse(localStorage.getItem('pd-db') || '{"students":{}}'); } catch(e){ db={students:{}}; } }
+
+// ─── HELPERS ─────────────────────────────────────────────
+function getLv(sid, mat, idx) { return db.students[sid]?.livelli?.[mat]?.[idx] || 'r'; }
+function setLv(sid, mat, idx, v) {
+  if (!db.students[sid].livelli) db.students[sid].livelli = {};
+  if (!db.students[sid].livelli[mat]) db.students[sid].livelli[mat] = {};
+  db.students[sid].livelli[mat][idx] = v;
+  save();
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+function ts(){ return new Date().toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'}); }
+
+// ─── NAV ─────────────────────────────────────────────────
+function goPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'storico') renderStorico();
+  if (id === 'alunni') renderStudentList();
+}
+function showTab(id, btn) {
+  document.querySelectorAll('#page-piano .tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#page-piano .tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+function showTabS(id, btn) {
+  document.querySelectorAll('#page-storico .tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#page-storico .tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'grafici') renderGrafici();
+}
+
+// ─── STUDENT SELECT ───────────────────────────────────────
+function populateSelect() {
+  const sel = document.getElementById('student-select');
+  const val = sel.value;
+  sel.innerHTML = '<option value="">— Seleziona alunno —</option>';
+  Object.entries(db.students).forEach(([id, s]) => {
+    sel.innerHTML += `<option value="${id}" ${id===val?'selected':''}>${s.nome}</option>`;
+  });
+}
+function cambiaAlunno() {
+  currentId = document.getElementById('student-select').value || null;
+  materieSelezionate = [];
+  pianoGenerato = false;
+  feedbackCorrente = {};
+  renderPiano();
+  renderStorico();
+}
+
+// ─── PIANO PAGE ───────────────────────────────────────────
+function renderPiano() {
+  const noSt = document.getElementById('piano-no-student');
+  const content = document.getElementById('piano-content');
+  if (!currentId || !db.students[currentId]) {
+    noSt.style.display = 'flex';
+    content.style.display = 'none';
+    return;
+  }
+  noSt.style.display = 'none';
+  content.style.display = 'block';
+  const s = db.students[currentId];
+  document.getElementById('piano-day').textContent = '— ' + document.getElementById('giorno').value;
+  renderMaterieChips();
+  renderLivelli();
+  renderFeedback();
+}
+
+function renderMaterieChips() {
+  if (!currentId) return;
+  const s = db.students[currentId];
+  const materie = Object.keys(s.materie || {});
+  const container = document.getElementById('materie-chips');
+  container.innerHTML = '';
+  materie.forEach(m => {
+    const sel = materieSelezionate.includes(m);
+    container.innerHTML += `<div class="mat-chip ${sel?'sel':''}" onclick="toggleMat('${m}',this)">${m}</div>`;
+  });
+}
+
+function toggleMat(m, el) {
+  el.classList.toggle('sel');
+  if (materieSelezionate.includes(m)) materieSelezionate = materieSelezionate.filter(x => x !== m);
+  else materieSelezionate.push(m);
+  document.getElementById('gen-btn').disabled = materieSelezionate.length === 0;
+  renderLivelli();
+}
+
+function renderLivelli() {
+  const empty = document.getElementById('livelli-empty');
+  const content = document.getElementById('livelli-content');
+  const genRow = document.getElementById('gen-row');
+  if (materieSelezionate.length === 0) {
+    empty.style.display = 'flex'; content.style.display = 'none';
+    return;
+  }
+  empty.style.display = 'none'; content.style.display = 'block';
+  const s = db.students[currentId];
+  let tot = 0, green = 0;
+  let html = '';
+  materieSelezionate.forEach(m => {
+    const obs = s.materie[m] || [];
+    html += `<div style="margin-bottom:1.5rem"><div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">${m}</div><table class="obj-table">`;
+    obs.forEach((ob, i) => {
+      const lv = getLv(currentId, m, i);
+      tot++; if (lv === 'g') green++;
+      html += `<tr><td class="obj-label">${ob}</td><td style="text-align:right;white-space:nowrap"><div class="lv-btns">
+        <button class="lv-btn ${lv==='r'?'r':''}" onclick="clickLv('${m}',${i},'r',this)">Non avviato</button>
+        <button class="lv-btn ${lv==='y'?'y':''}" onclick="clickLv('${m}',${i},'y',this)">In acquisizione</button>
+        <button class="lv-btn ${lv==='g'?'g':''}" onclick="clickLv('${m}',${i},'g',this)">Acquisito</button>
+      </div></td></tr>`;
+    });
+    html += '</table></div>';
+  });
+  document.getElementById('livelli-blocks').innerHTML = html;
+  const pct = tot > 0 ? Math.round(green/tot*100) : 0;
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('gen-btn').disabled = materieSelezionate.length === 0;
+}
+
+function clickLv(m, i, v, btn) {
+  setLv(currentId, m, i, v);
+  btn.closest('tr').querySelectorAll('.lv-btn').forEach(b => b.classList.remove('r','y','g'));
+  btn.classList.add(v);
+  const pct = calcolaProgress();
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-pct').textContent = pct + '%';
+  const now = new Date().toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('last-saved').textContent = 'Salvato alle ' + now;
+}
+
+function calcolaProgress() {
+  let tot = 0, green = 0;
+  const s = db.students[currentId];
+  materieSelezionate.forEach(m => {
+    (s.materie[m]||[]).forEach((_,i) => { tot++; if (getLv(currentId,m,i)==='g') green++; });
+  });
+  return tot > 0 ? Math.round(green/tot*100) : 0;
+}
+
+// ─── GENERA ───────────────────────────────────────────────
+async function genera() {
+  const s = db.students[currentId];
+  const giorno = document.getElementById('giorno').value;
+  const settimana = document.getElementById('settimana').value || 'corrente';
+  const note = document.getElementById('note').value;
+  const lv_l = {r:'NON AVVIATO',y:'IN ACQUISIZIONE',g:'ACQUISITO'};
+
+  const righe = materieSelezionate.map(m => {
+    const obs = s.materie[m] || [];
+    return `• ${m}:\n` + obs.map((ob,i) => `    - ${ob} → ${lv_l[getLv(currentId,m,i)]}`).join('\n');
+  }).join('\n\n');
+
+  const approccio = s.approccio ? `\nAPPROCCIO DIDATTICO: ${s.approccio} — adatta attività, materiali e metodologia a questo approccio.` : '';
+  const frameworkStr = s.framework ? `\nFRAMEWORK SCIENTIFICI: ${s.framework}` : '';
+  const prompt = `Genera il piano didattico per oggi (${giorno}, ${settimana}) per lo studente ${s.nome}.
+
+PROFILO: ${s.profilo}${approccio}${frameworkStr}
+
+STATO ATTUALE DEGLI OBIETTIVI:
+${righe}
+${note ? `\nNOTE: ${note}` : ''}
+
+Per ogni materia: attività breve, pratica, pronta all'uso.
+Per ogni attività indica:
+- Il framework metodologico applicato (es. Task analysis Erickson, UDL, Errorless learning, Differenziazione didattica D'Alonzo) 
+- Perché è appropriato per questo alunno in questo momento
+- Come si collega agli obiettivi del PEI nelle 4 dimensioni ICF (relazione, comunicazione/linguaggio, autonomia, cognitiva/apprendimento)
+### [MATERIA]
+**Attività:** passo per passo
+**Framework (Erickson):** metodo applicato, motivazione e dimensione ICF
+**Materiali:** cosa preparare
+**Come condurla:** metodologia specifica
+**Durata:** minuti
+**Rinforzo:** gratificazione specifica`;
+
+  const btn = document.getElementById('gen-btn');
+  btn.disabled = true;
+  const outEmpty = document.getElementById('output-empty');
+  const outContent = document.getElementById('output-content');
+  outEmpty.style.display = 'none';
+  outContent.style.display = 'block';
+  outContent.innerHTML = '<div class="loading-row"><div class="spinner"></div>Generazione in corso...</div>';
+  showTab('output', document.getElementById('tab-output-btn'));
+
+  try {
+    const resp = await fetch('/api/claude', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ messages: [{role:'user',content:prompt}], max_tokens: 1000 })
+    });
+    const data = await resp.json();
+    if (!data.content || !data.content[0]) throw new Error(JSON.stringify(data));
+    const testo = data.content[0].text;
+    outContent.innerHTML = '<div class="piano-out">' + renderMd(testo) + '</div>';
+    window._pianoRawText = testo;
+    pianoGenerato = true;
+    renderFeedback();
+    document.getElementById('export-bar').style.display = 'flex';
+    showToast('Piano generato');
+  } catch(err) {
+    outContent.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><div class="empty-title">Errore</div><div class="empty-sub">${err.message}</div></div>`;
+  }
+  btn.disabled = false;
+}
+
+function renderMd(text) {
+  let html = text
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>');
+  return '<p>' + html + '</p>';
+}
+
+// ─── FEEDBACK ─────────────────────────────────────────────
+function renderFeedback() {
+  const empty = document.getElementById('feedback-empty');
+  const content = document.getElementById('feedback-content');
+  if (!pianoGenerato) { empty.style.display='flex'; content.style.display='none'; return; }
+  empty.style.display='none'; content.style.display='block';
+  const s = db.students[currentId];
+  const lv_l = {r:'Non avviato',y:'In acquisizione',g:'Acquisito'};
+  let html = '';
+  materieSelezionate.forEach(m => {
+    const obs = s.materie[m] || [];
+    html += `<div style="margin-bottom:1.5rem"><div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">${m}</div><table class="obj-table">`;
+    obs.forEach((ob,i) => {
+      const lv = getLv(currentId,m,i);
+      const fb = feedbackCorrente[m]?.[i];
+      html += `<tr><td class="obj-label">${ob}<span style="font-size:11px;color:var(--hint);display:block">ora: ${lv_l[lv]}</span></td>
+        <td style="text-align:right;white-space:nowrap"><div class="lv-btns">
+          <button class="lv-btn ${fb==='ok'?'g':''}" onclick="setFb('${m}',${i},'ok',this)">✓ Sì</button>
+          <button class="lv-btn ${fb==='par'?'y':''}" onclick="setFb('${m}',${i},'par',this)">~ Parziale</button>
+          <button class="lv-btn ${fb==='no'?'r':''}" onclick="setFb('${m}',${i},'no',this)">✗ No</button>
+        </div></td></tr>`;
+    });
+    html += '</table></div>';
+  });
+  document.getElementById('feedback-blocks').innerHTML = html;
+}
+
+function setFb(m, i, v, btn) {
+  if (!feedbackCorrente[m]) feedbackCorrente[m] = {};
+  feedbackCorrente[m][i] = v;
+  btn.closest('tr').querySelectorAll('.lv-btn').forEach(b => b.classList.remove('r','y','g'));
+  btn.classList.add(v==='ok'?'g':v==='par'?'y':'r');
+}
+
+function salvaFeedback() {
+  const s = db.students[currentId];
+  const changes = [];
+  const lv_l = {r:'Non avviato',y:'In acquisizione',g:'Acquisito'};
+  materieSelezionate.forEach(m => {
+    if (!feedbackCorrente[m]) return;
+    Object.entries(feedbackCorrente[m]).forEach(([i,fb]) => {
+      const cur = getLv(currentId,m,parseInt(i));
+      let nv = cur;
+      if (fb==='ok') nv = cur==='r'?'y':cur==='y'?'g':'g';
+      if (fb==='no' && cur==='g') nv = 'y';
+      if (nv !== cur) {
+        setLv(currentId, m, parseInt(i), nv);
+        const ob = s.materie[m][parseInt(i)];
+        changes.push({mat:m, ob, from:cur, to:nv});
+      }
+    });
+  });
+  // Salva sessione in storico
+  if (!s.storico) s.storico = [];
+  s.storico.unshift({
+    date: ts(),
+    giorno: document.getElementById('giorno').value,
+    materie: [...materieSelezionate],
+    changes
+  });
+  s.lastFeedback = Date.now();
+  save();
+  feedbackCorrente = {};
+  renderLivelli();
+  renderFeedback();
+  const msg = document.getElementById('save-msg');
+  msg.style.display = 'inline';
+  setTimeout(() => msg.style.display='none', 3000);
+  showToast('Livelli aggiornati');
+}
+
+// ─── STORICO ─────────────────────────────────────────────
+function renderStorico() {
+  const noSt = document.getElementById('storico-no-student');
+  const content = document.getElementById('storico-content');
+  if (!currentId || !db.students[currentId]) {
+    noSt.style.display='flex'; content.style.display='none'; return;
+  }
+  noSt.style.display='none'; content.style.display='block';
+  const s = db.students[currentId];
+  document.getElementById('storico-name').textContent = '— ' + s.nome;
+  const sessions = s.storico || [];
+  const lv_l = {r:'Non avviato',y:'In acquisizione',g:'Acquisito'};
+  const lv_emoji = {r:'🔴',y:'🟡',g:'🟢'};
+  if (sessions.length === 0) {
+    document.getElementById('timeline-list').innerHTML = '<div class="empty"><div class="empty-icon">📅</div><div class="empty-title">Nessuna sessione registrata</div><div class="empty-sub">Le sessioni appaiono dopo aver salvato il feedback.</div></div>';
+    return;
+  }
+  let html = '';
+  sessions.forEach(sess => {
+    const changesHtml = sess.changes && sess.changes.length > 0
+      ? sess.changes.map(c => `<span class="pill ${c.to==='g'?'pill-g':c.to==='y'?'pill-y':'pill-r'}">${c.mat}: ${c.ob} ${lv_emoji[c.from]}→${lv_emoji[c.to]}</span>`).join(' ')
+      : '<span style="font-size:12px;color:var(--hint)">Nessun aggiornamento di livello</span>';
+    html += `<div class="session-item">
+      <div class="session-date">${sess.date} — ${sess.giorno}</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:4px">Materie: ${sess.materie.join(', ')}</div>
+      <div class="session-changes">${changesHtml}</div>
+    </div>`;
+  });
+  document.getElementById('timeline-list').innerHTML = html;
+}
+
+function renderGrafici() {
+  if (!currentId || !db.students[currentId]) return;
+  const s = db.students[currentId];
+  const materie = Object.keys(s.materie || {});
+  const lv_label = {r:'Non avviato',y:'In acquisizione',g:'Acquisito'};
+  let html = '';
+  materie.forEach(m => {
+    const obs = s.materie[m] || [];
+    if (obs.length === 0) return;
+    html += `<div style="margin-bottom:2rem"><div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;color:var(--text)">${m}</div><div class="chart-grid">`;
+    obs.forEach((ob, i) => {
+      const lv = getLv(currentId, m, i);
+      const pct = lv==='r'?33:lv==='y'?66:100;
+      html += `<div class="chart-row">
+        <div class="chart-label" title="${ob}">${ob}</div>
+        <div class="chart-bar-wrap"><div class="chart-bar ${lv}" style="width:${pct}%"></div></div>
+        <div class="chart-val">${lv_label[lv]}</div>
+      </div>`;
+    });
+    html += '</div></div>';
+  });
+  document.getElementById('grafici-content').innerHTML = html || '<div class="empty"><div class="empty-icon">📊</div><div class="empty-title">Nessun dato</div></div>';
+}
+
+// ─── ALUNNI ───────────────────────────────────────────────
+function renderStudentList() {
+  const list = document.getElementById('student-list');
+  const students = Object.entries(db.students);
+  if (students.length === 0) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">👤</div><div class="empty-title">Nessun alunno</div><div class="empty-sub">Clicca "+ Nuovo alunno" per iniziare.</div></div>';
+    return;
+  }
+  list.innerHTML = students.map(([id, s]) => `
+    <div class="student-card">
+      <div>
+        <div class="student-name">${s.nome}</div>
+        <div class="student-sub">${s.classe} · ${Object.keys(s.materie||{}).length} materie</div>
+      </div>
+      <div class="student-actions">
+        <button class="btn btn-sm" onclick="editStudent('${id}')">Modifica</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteStudent('${id}')">Elimina</button>
+      </div>
+    </div>`).join('');
+}
+
+function showNewStudent() {
+  editingId = null;
+  document.getElementById('form-title').textContent = 'Nuovo alunno';
+  document.getElementById('f-nome').value = '';
+  document.getElementById('f-classe').value = '';
+  document.getElementById('f-pei').value = '';
+  document.getElementById('f-profilo').value = '';
+  const dz = document.getElementById('drop-zone');
+  if (dz) { dz.classList.remove('loaded'); }
+  const di = document.getElementById('drop-icon'); if (di) di.textContent = '📄';
+  const dt = document.getElementById('drop-text'); if (dt) dt.textContent = 'Trascina il file .docx del PEI qui';
+  const ds = document.getElementById('drop-sub'); if (ds) ds.textContent = 'oppure clicca per selezionare il file';
+  document.querySelectorAll('#approccio-chips .app-chip').forEach(c => c.classList.remove('sel'));
+  document.getElementById('f-approccio-altro').value = '';
+  document.querySelectorAll('#framework-chips .app-chip').forEach(c => c.classList.remove('sel'));
+  document.getElementById('f-framework-altro').value = '';
+  document.getElementById('f-obiettivi-container').innerHTML = '';
+  document.getElementById('estratto-preview').style.display = 'none';
+  document.getElementById('student-form').style.display = 'block';
+  document.getElementById('student-list').style.display = 'none';
+  document.querySelector('#page-alunni .sec-header').style.display = 'none';
+}
+
+function editStudent(id) {
+  editingId = id;
+  const s = db.students[id];
+  document.getElementById('form-title').textContent = 'Modifica ' + s.nome;
+  document.getElementById('f-nome').value = s.nome;
+  document.getElementById('f-classe').value = s.classe;
+  document.getElementById('f-pei').value = '';
+  document.getElementById('f-profilo').value = s.profilo || '';
+  const dz = document.getElementById('drop-zone');
+  if (dz) { dz.classList.remove('loaded'); }
+  const di = document.getElementById('drop-icon'); if (di) di.textContent = '📄';
+  const dt = document.getElementById('drop-text'); if (dt) dt.textContent = 'Trascina il file .docx del PEI qui';
+  const ds = document.getElementById('drop-sub'); if (ds) ds.textContent = 'oppure clicca per selezionare il file';
+  document.querySelectorAll('#approccio-chips .app-chip').forEach(c => c.classList.remove('sel'));
+  document.getElementById('f-approccio-altro').value = '';
+  document.querySelectorAll('#framework-chips .app-chip').forEach(c => c.classList.remove('sel'));
+  document.getElementById('f-framework-altro').value = '';
+  if (s.approccio) setApproccioChips(s.approccio);
+  document.querySelectorAll('#framework-chips .app-chip').forEach(c => c.classList.remove('sel'));
+  document.getElementById('f-framework-altro').value = '';
+  if (s.framework) setFrameworkChips(s.framework);
+  renderObiettiviForm(s.materie || {});
+  document.getElementById('estratto-preview').style.display = 'block';
+  document.getElementById('student-form').style.display = 'block';
+  document.getElementById('student-list').style.display = 'none';
+  document.querySelector('#page-alunni .sec-header').style.display = 'none';
+}
+
+function deleteStudent(id) {
+  if (!confirm('Eliminare ' + db.students[id].nome + ' e tutti i suoi dati?')) return;
+  delete db.students[id];
+  save();
+  if (currentId === id) { currentId = null; renderPiano(); }
+  populateSelect();
+  renderStudentList();
+  showToast('Alunno eliminato');
+}
+
+function cancellaForm() {
+  document.getElementById('student-form').style.display = 'none';
+  document.getElementById('student-list').style.display = 'block';
+  document.querySelector('#page-alunni .sec-header').style.display = 'flex';
+}
+
+// ─── FILE DROP ───────────────────────────────────────────
+const dropZone = document.getElementById('drop-zone');
+if (dropZone) {
+  dropZone.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    dropZone.classList.add('drag-over');
+  });
+  dropZone.addEventListener('dragleave', function() {
+    dropZone.classList.remove('drag-over');
+  });
+  dropZone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file) processFile(file);
+  });
+}
+
+function leggiFile(event) {
+  const file = event.target.files[0];
+  if (file) processFile(file);
+}
+
+function processFile(file) {
+  const zone = document.getElementById('drop-zone');
+  const icon = document.getElementById('drop-icon');
+  const text = document.getElementById('drop-text');
+  const sub = document.getElementById('drop-sub');
+
+  if (file.name.endsWith('.docx')) {
+    text.textContent = 'Lettura in corso...';
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      mammoth.extractRawText({arrayBuffer: e.target.result})
+        .then(function(result) {
+          document.getElementById('f-pei').value = result.value;
+          zone.classList.add('loaded');
+          icon.textContent = '✓';
+          text.textContent = file.name;
+          sub.textContent = result.value.length + ' caratteri estratti';
+        })
+        .catch(function(err) {
+          text.textContent = 'Errore lettura file';
+          sub.textContent = err.message;
+        });
+    };
+    reader.readAsArrayBuffer(file);
+  } else if (file.name.endsWith('.txt')) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('f-pei').value = e.target.result;
+      zone.classList.add('loaded');
+      icon.textContent = '✓';
+      text.textContent = file.name;
+      sub.textContent = e.target.result.length + ' caratteri';
+    };
+    reader.readAsText(file);
+  } else {
+    showToast('Formato non supportato — usa .docx o .txt');
+  }
+}
+
+async function estraiDaPei() {
+  const pei = document.getElementById('f-pei').value.trim();
+  if (!pei) { showToast('Incolla prima il testo del PEI'); return; }
+  const btn = document.getElementById('estrai-btn');
+  const spinner = document.getElementById('estrai-spinner');
+  btn.disabled = true;
+  spinner.style.display = 'inline-block';
+
+  const prompt = `Analizza questo PEI e restituisci un JSON con questa struttura esatta (solo JSON, niente altro):
+{
+  "profilo": "profilo sintetico dell'alunno in 3-4 righe: caratteristiche principali, punti di forza, difficoltà, metodologia efficace",
+  "materie": {
+    "NomeMateria": ["obiettivo 1", "obiettivo 2", ...],
+    ...
+  }
+}
+
+Estrai TUTTE le materie con percorso differenziato e i loro obiettivi didattici specifici.
+
+TESTO PEI:
+${pei.substring(0, 8000)}`;
+
+  try {
+    const resp = await fetch('/api/claude', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ messages: [{role:'user',content:prompt}], max_tokens: 1000 })
+    });
+    const data = await resp.json();
+    const testo = data.content[0].text;
+    const clean = testo.replace(/```json|```/g,'').trim();
+    const parsed = JSON.parse(clean);
+    document.getElementById('f-profilo').value = parsed.profilo || '';
+    renderObiettiviForm(parsed.materie || {});
+    document.getElementById('estratto-preview').style.display = 'block';
+    document.getElementById('estrai-msg').style.display = 'inline';
+    setTimeout(() => document.getElementById('estrai-msg').style.display='none', 3000);
+  } catch(err) {
+    showToast('Errore estrazione: ' + err.message);
+  }
+  btn.disabled = false;
+  spinner.style.display = 'none';
+}
+
+function renderObiettiviForm(materie) {
+  const container = document.getElementById('f-obiettivi-container');
+  container.innerHTML = '';
+  Object.entries(materie).forEach(([mat, obs]) => {
+    aggiungiMateriaConDati(mat, obs);
+  });
+}
+
+function toggleChip(el) {
+  el.classList.toggle('sel');
+}
+function toggleApp(el) {
+  el.classList.toggle('sel');
+}
+function getFramework() {
+  const chips = [...document.querySelectorAll('#framework-chips .app-chip.sel')].map(e => e.dataset.val);
+  const altro = document.getElementById('f-framework-altro').value.trim();
+  return [...chips, ...(altro ? [altro] : [])].join('; ');
+}
+function setFrameworkChips(val) {
+  if (!val) return;
+  document.querySelectorAll('#framework-chips .app-chip').forEach(chip => {
+    if (val.includes(chip.dataset.val)) chip.classList.add('sel');
+  });
+  const known = [...document.querySelectorAll('#framework-chips .app-chip')].map(c => c.dataset.val);
+  const parts = val.split('; ').filter(v => !known.includes(v));
+  if (parts.length) document.getElementById('f-framework-altro').value = parts.join('; ');
+}
+function getApproccio() {
+  const chips = [...document.querySelectorAll('#approccio-chips .app-chip.sel')].map(e => e.dataset.val);
+  const altro = document.getElementById('f-approccio-altro').value.trim();
+  return [...chips, ...(altro ? [altro] : [])].join(', ');
+}
+function setApproccioChips(val) {
+  if (!val) return;
+  document.querySelectorAll('.app-chip').forEach(chip => {
+    if (val.includes(chip.dataset.val)) chip.classList.add('sel');
+  });
+  // set remaining in altro field
+  const known = [...document.querySelectorAll('.app-chip')].map(c => c.dataset.val);
+  const parts = val.split(', ').filter(v => !known.includes(v));
+  if (parts.length) document.getElementById('f-approccio-altro').value = parts.join(', ');
+}
+function aggiungiMateria() { aggiungiMateriaConDati('', []); }
+
+function aggiungiMateriaConDati(nome, obs) {
+  const container = document.getElementById('f-obiettivi-container');
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.style.marginBottom = '.75rem';
+  div.innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:.75rem">
+      <input type="text" placeholder="Nome materia" value="${nome}" style="flex:1" class="mat-nome">
+      <button class="btn btn-sm btn-danger" onclick="this.closest('.card').remove()">✕</button>
+    </div>
+    <div class="ob-list">${obs.map(o => obRow(o)).join('')}</div>
+    <button class="btn btn-sm" onclick="aggiungiOb(this)" style="margin-top:.5rem">+ Obiettivo</button>`;
+  container.appendChild(div);
+}
+
+function obRow(val='') {
+  return `<div style="display:flex;gap:6px;margin-bottom:6px">
+    <input type="text" value="${val}" placeholder="Obiettivo didattico" style="flex:1">
+    <button class="btn btn-sm" onclick="this.parentElement.remove()" style="padding:4px 8px">✕</button>
+  </div>`;
+}
+
+function aggiungiOb(btn) {
+  const list = btn.previousElementSibling;
+  list.insertAdjacentHTML('beforeend', obRow());
+}
+
+function salvaAlunno() {
+  const nome = document.getElementById('f-nome').value.trim();
+  const approccio = getApproccio();
+  const framework = getFramework();
+  const classe = document.getElementById('f-classe').value.trim();
+  const profilo = document.getElementById('f-profilo').value.trim();
+  if (!nome) { showToast('Inserisci il nome'); return; }
+
+  const materie = {};
+  document.querySelectorAll('#f-obiettivi-container .card').forEach(card => {
+    const mat = card.querySelector('.mat-nome').value.trim();
+    if (!mat) return;
+    const obs = [...card.querySelectorAll('.ob-list input')].map(i => i.value.trim()).filter(Boolean);
+    if (obs.length > 0) materie[mat] = obs;
+  });
+
+  const id = editingId || 'st_' + Date.now();
+  const existing = db.students[id] || {};
+  db.students[id] = {
+    ...existing,
+    nome, classe, profilo, approccio, framework, materie,
+    livelli: existing.livelli || {},
+    storico: existing.storico || []
+  };
+  save();
+  populateSelect();
+  cancellaForm();
+  renderStudentList();
+  showToast('Alunno salvato');
+}
+
+// ─── COLORI MATERIE ──────────────────────────────────────
+const COLORI = {
+  'Italiano':['#185FA5','#EEF2FF'],
+  'Storia':['#BA7517','#FFF3BF'],
+  'Matematica':['#2F9E44','#EBFBEE'],
+  'Inglese':['#6741D9','#F3F0FF'],
+  'Scienze':['#0F6E56','#E1F5EE'],
+  'default':['#364FC7','#EEF2FF']
+};
+function getColore(m) { return COLORI[m] || COLORI['default']; }
+
+// ─── PARSE PIANO ─────────────────────────────────────────
+function parsePiano(testo) {
+  const sezioni = testo.split(/^###\s+/m).filter(s => s.trim());
+  return sezioni.map(s => {
+    const lines = s.trim().split('\n');
+    const materia = lines[0].replace(/[*[\]]/g,'').trim();
+    const body = lines.slice(1).join('\n');
+    const get = (key) => {
+      const re = new RegExp(`\\*\\*${key}:\\*\\*\\s*([\\s\\S]*?)(?=\\*\\*(?:Attività|Framework|Materiali|Come condurla|Durata|Rinforzo):|$)`, 'i');
+      const m = body.match(re);
+      return m ? m[1].trim() : '';
+    };
+    return {
+      materia,
+      attivita: get('Attività'),
+      framework: get('Framework \\(Erickson\\)') || get('Framework'),
+      materiali: get('Materiali'),
+      come: get('Come condurla'),
+      durata: get('Durata'),
+      rinforzo: get('Rinforzo')
+    };
+  });
+}
+
+// ─── PDF TECNICO ─────────────────────────────────────────
+function stampaTecnico() {
+  const s = db.students[currentId];
+  const giorno = document.getElementById('giorno').value;
+  const settimana = document.getElementById('settimana').value || '';
+  const rawText = window._pianoRawText || document.getElementById('output-content').innerText;
+  const sezRaw = rawText.split(/^###\s+/m).filter(function(s){return s.trim();});
+
+  const lv_label = {r:'Non avviato', y:'In acquisizione', g:'Acquisito'};
+
+  let pagesHtml = '';
+  sezRaw.forEach(function(sez, idx) {
+    const lines = sez.trim().split('\n');
+    const materia = lines[0].trim();
+    const body = lines.slice(1).join('\n');
+    const col = getColore(materia);
+    const colPrimary = col[0];
+    const colLight = col[1];
+
+    function get(key) {
+      const re = new RegExp('\\*\\*' + key + '[^:]*:\\*\\*\\s*([\\s\\S]*?)(?=\\n\\*\\*|$)', 'i');
+      const m = body.match(re);
+      return m ? m[1].trim().replace(/\*\*/g,'') : '';
+    }
+
+    let pageHtml = '<div class="print-page">';
+    pageHtml += '<div style="background:' + colLight + ';border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;border-left:5px solid ' + colPrimary + '">';
+    pageHtml += '<div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#7A786F;margin-bottom:2px">Piano Didattico Tecnico — ' + giorno + ' — ' + s.nome + '</div>';
+    pageHtml += '<div style="font-size:22px;font-weight:700;color:' + colPrimary + '">' + materia + '</div>';
+    pageHtml += '</div>';
+
+    const campi = [
+      {k:'Attività', icon:'📋', label:'Attività'},
+      {k:'Framework', icon:'🔬', label:'Framework scientifico (Erickson)'},
+      {k:'Materiali', icon:'📦', label:'Materiali'},
+      {k:'Come condurla', icon:'🎯', label:'Come condurla'},
+      {k:'Durata', icon:'⏱', label:'Durata'},
+      {k:'Rinforzo', icon:'⭐', label:'Rinforzo'}
+    ];
+
+    campi.forEach(function(campo) {
+      const val = get(campo.k);
+      if (!val) return;
+      pageHtml += '<div style="margin-bottom:1rem">';
+      pageHtml += '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#7A786F;margin-bottom:4px">' + campo.icon + ' ' + campo.label + '</div>';
+      pageHtml += '<div style="font-size:13px;color:#1A1916;line-height:1.7;padding-left:.75rem;border-left:3px solid ' + colPrimary + '">' + val + '</div>';
+      pageHtml += '</div>';
+    });
+
+    pageHtml += '</div>';
+    pagesHtml += pageHtml;
+  });
+
+  const fullHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Piano Tecnico</title>' +
+    '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">' +
+    '<style>*{box-sizing:border-box;margin:0;padding:0} body{font-family:Inter,sans-serif;background:#f5f5f5}' +
+    '.print-page{background:#fff;max-width:21cm;margin:1cm auto;padding:2cm;box-shadow:0 2px 8px rgba(0,0,0,.1)}' +
+    '@media print{body{background:#fff}.print-page{box-shadow:none;margin:0;max-width:none;page-break-after:always}}' +
+    '</style></head><body>' + pagesHtml + '<script>setTimeout(function(){window.print();},800);<\/script></body></html>';
+
+  const w = window.open('','_blank');
+  w.document.write(fullHtml);
+  w.document.close();
+}
+
+// ─── PDF OPERATIVO ────────────────────────────────────────
+function getSvgForMateria(m) {
+  var svgs = {
+    "Italiano": '<svg viewBox="0 0 200 160"><rect x="20" y="10" width="100" height="130" rx="6" fill="none" stroke="#ddd" stroke-width="4"/><rect x="30" y="10" width="100" height="130" rx="6" fill="none" stroke="#ddd" stroke-width="4"/><line x1="50" y1="45" x2="110" y2="45" stroke="#ddd" stroke-width="3"/><line x1="50" y1="65" x2="110" y2="65" stroke="#ddd" stroke-width="3"/><line x1="50" y1="85" x2="90" y2="85" stroke="#ddd" stroke-width="3"/><line x1="50" y1="105" x2="110" y2="105" stroke="#ddd" stroke-width="3"/></svg>',
+    "Storia": '<svg viewBox="0 0 200 160"><circle cx="100" cy="85" r="65" fill="none" stroke="#ddd" stroke-width="4"/><line x1="100" y1="20" x2="100" y2="85" stroke="#ddd" stroke-width="4"/><line x1="100" y1="85" x2="150" y2="55" stroke="#ddd" stroke-width="3"/><circle cx="100" cy="85" r="5" fill="#ddd"/></svg>',
+    "Matematica": '<svg viewBox="0 0 200 160"><rect x="30" y="15" width="140" height="130" rx="8" fill="none" stroke="#ddd" stroke-width="4"/><rect x="30" y="15" width="140" height="35" rx="8" fill="none" stroke="#ddd" stroke-width="3"/><rect x="45" y="65" width="30" height="22" rx="4" fill="none" stroke="#ddd" stroke-width="3"/><rect x="85" y="65" width="30" height="22" rx="4" fill="none" stroke="#ddd" stroke-width="3"/><rect x="125" y="65" width="30" height="22" rx="4" fill="none" stroke="#ddd" stroke-width="3"/><rect x="45" y="100" width="30" height="22" rx="4" fill="none" stroke="#ddd" stroke-width="3"/><rect x="85" y="100" width="30" height="22" rx="4" fill="none" stroke="#ddd" stroke-width="3"/><rect x="125" y="100" width="30" height="22" rx="4" fill="none" stroke="#ddd" stroke-width="3"/></svg>',
+    "Inglese": '<svg viewBox="0 0 200 160"><rect x="15" y="25" width="170" height="110" rx="10" fill="none" stroke="#ddd" stroke-width="4"/><line x1="15" y1="55" x2="185" y2="55" stroke="#ddd" stroke-width="3"/><circle cx="55" cy="40" r="7" fill="none" stroke="#ddd" stroke-width="3"/><circle cx="80" cy="40" r="7" fill="none" stroke="#ddd" stroke-width="3"/><line x1="40" y1="80" x2="160" y2="80" stroke="#ddd" stroke-width="3"/><line x1="40" y1="100" x2="130" y2="100" stroke="#ddd" stroke-width="3"/></svg>',
+    "Scienze": '<svg viewBox="0 0 200 160"><path d="M80 20 L80 80 L35 145 L165 145 L120 80 L120 20 Z" fill="none" stroke="#ddd" stroke-width="4"/><line x1="68" y1="20" x2="132" y2="20" stroke="#ddd" stroke-width="4"/><circle cx="90" cy="115" r="9" fill="none" stroke="#ddd" stroke-width="3"/><circle cx="118" cy="128" r="7" fill="none" stroke="#ddd" stroke-width="3"/><circle cx="72" cy="132" r="6" fill="none" stroke="#ddd" stroke-width="3"/></svg>'
+  };
+  if (m.indexOf("Arte") !== -1) return '<svg viewBox="0 0 200 160"><rect x="30" y="20" width="140" height="110" rx="4" fill="none" stroke="#ddd" stroke-width="4"/><circle cx="80" cy="70" r="22" fill="none" stroke="#ddd" stroke-width="3"/><path d="M55 115 Q100 75 145 115" fill="none" stroke="#ddd" stroke-width="3"/></svg>';
+  if (m.indexOf("Pitt") !== -1 || m.indexOf("Plast") !== -1) return '<svg viewBox="0 0 200 160"><circle cx="100" cy="80" r="60" fill="none" stroke="#ddd" stroke-width="4"/><circle cx="70" cy="65" r="12" fill="none" stroke="#ddd" stroke-width="3"/><circle cx="130" cy="65" r="12" fill="none" stroke="#ddd" stroke-width="3"/><circle cx="100" cy="110" r="12" fill="none" stroke="#ddd" stroke-width="3"/><circle cx="55" cy="95" r="10" fill="none" stroke="#ddd" stroke-width="3"/><circle cx="145" cy="95" r="10" fill="none" stroke="#ddd" stroke-width="3"/></svg>';
+  if (m.indexOf("Motorie") !== -1) return '<svg viewBox="0 0 200 160"><circle cx="100" cy="35" r="18" fill="none" stroke="#ddd" stroke-width="4"/><line x1="100" y1="53" x2="100" y2="110" stroke="#ddd" stroke-width="4"/><line x1="60" y1="75" x2="140" y2="75" stroke="#ddd" stroke-width="3"/><line x1="100" y1="110" x2="70" y2="150" stroke="#ddd" stroke-width="4"/><line x1="100" y1="110" x2="130" y2="150" stroke="#ddd" stroke-width="4"/></svg>';
+  return svgs[m] || '<svg viewBox="0 0 200 160"><rect x="40" y="20" width="120" height="120" rx="10" fill="none" stroke="#ddd" stroke-width="4"/><line x1="65" y1="55" x2="135" y2="55" stroke="#ddd" stroke-width="3"/><line x1="65" y1="78" x2="135" y2="78" stroke="#ddd" stroke-width="3"/><line x1="65" y1="100" x2="110" y2="100" stroke="#ddd" stroke-width="3"/></svg>';
+}
+
+function getColorForMateria(m) {
+  if (m === "Italiano") return "#1864AB";
+  if (m === "Storia") return "#E67700";
+  if (m === "Matematica") return "#2B8A3E";
+  if (m === "Inglese") return "#6741D9";
+  if (m === "Scienze") return "#0B7285";
+  if (m.indexOf("Arte") !== -1) return "#C2255C";
+  if (m.indexOf("Pitt") !== -1 || m.indexOf("Plast") !== -1 || m.indexOf("Geom") !== -1 || m.indexOf("Lab") !== -1) return "#862E9C";
+  if (m.indexOf("Motorie") !== -1) return "#C92A2A";
+  return "#364FC7";
+}
+
+function stampaOperativo() {
+  var s = db.students[currentId];
+  var giorno = document.getElementById("giorno").value;
+  var rawText = window._pianoRawText || "";
+  if (!rawText) { showToast("Genera prima il piano"); return; }
+  var sezRaw = rawText.split(/^###\s+/m).filter(function(x){return x.trim();});
+
+  function brevissimo(testo) {
+    if (!testo) return "";
+    var righe = testo.split("\n").map(function(r){return r.trim().replace(/\*\*/g,"");}).filter(function(r){return r && r.length > 2;});
+    return righe.slice(0,4).join("<br>");
+  }
+
+  function getField(body, key) {
+    var re = new RegExp("\\*\\*" + key + "[^:]*:\\*\\*\\s*([\\s\\S]*?)(?=\\n\\*\\*|$)", "i");
+    var m = body.match(re);
+    return m ? m[1].trim().replace(/\*\*/g,"") : "";
+  }
+
+  var pagesHtml = "";
+
+  sezRaw.forEach(function(sez) {
+    var lines = sez.trim().split("\n");
+    var materia = lines[0].replace(/[*[\]]/g,"").trim();
+    var body = lines.slice(1).join("\n");
+    var col = getColorForMateria(materia);
+    var attivita = getField(body, "Attivit\u00e0");
+    var materiali = getField(body, "Materiali");
+    var durata = getField(body, "Durata");
+    var rinforzo = getField(body, "Rinforzo");
+    var durataNum = durata.replace(/[^0-9]/g,"") || "20";
+
+    var p = '<div class="pg">';
+    p += '<div class="pg-header" style="background:' + col + '">';
+    p += '<div class="pg-nome">' + s.nome.toUpperCase() + ' &mdash; ' + giorno.toUpperCase() + '</div>';
+    p += '<div class="pg-materia">' + materia.toUpperCase() + '</div>';
+    p += '<div class="pg-timer">&#9203; ' + durataNum + ' MINUTI</div>';
+    p += '</div>';
+
+    if (attivita) {
+      p += '<div class="blocco" style="border-color:' + col + '">';
+      p += '<div class="blocco-hdr" style="background:' + col + '">&#128203; COSA FACCIAMO</div>';
+      p += '<div class="blocco-body">' + brevissimo(attivita) + '</div>';
+      p += '</div>';
+    }
+    if (materiali) {
+      p += '<div class="blocco" style="border-color:' + col + '">';
+      p += '<div class="blocco-hdr" style="background:' + col + '">&#128230; COSA TI SERVE</div>';
+      p += '<div class="blocco-body">' + brevissimo(materiali) + '</div>';
+      p += '</div>';
+    }
+    if (rinforzo) {
+      p += '<div class="blocco" style="border-color:#2B8A3E">';
+      p += '<div class="blocco-hdr" style="background:#2B8A3E">&#11088; IL TUO PREMIO</div>';
+      p += '<div class="blocco-body" style="color:#1A5E2A">' + rinforzo + '</div>';
+      p += '</div>';
+    }
+
+    p += '<div class="figura-wrap">';
+    p += '<div class="figura-label">COLORA QUI! &#128397;</div>';
+    p += '<div class="figura-svg">' + getSvgForMateria(materia) + '</div>';
+    p += '</div>';
+    p += '</div>';
+    pagesHtml += p;
+  });
+
+  var css = [
+    "*{box-sizing:border-box;margin:0;padding:0}",
+    "body{font-family:Arial,sans-serif;background:#f0f0f0}",
+    ".pg{background:#fff;width:21cm;min-height:29cm;margin:1cm auto;padding:0;page-break-after:always;display:flex;flex-direction:column}",
+    ".pg-header{padding:1cm 1cm .8cm;color:#fff;flex-shrink:0}",
+    ".pg-nome{font-size:13pt;opacity:.85;letter-spacing:.05em;margin-bottom:4px;font-weight:700}",
+    ".pg-materia{font-size:36pt;font-weight:900;line-height:1;letter-spacing:-1px}",
+    ".pg-timer{font-size:15pt;margin-top:8px;opacity:.9;font-weight:700}",
+    ".blocco{border:4px solid #ccc;border-radius:14px;margin:.35cm .8cm;flex-shrink:0;overflow:hidden}",
+    ".blocco-hdr{color:#fff;font-size:15pt;font-weight:900;padding:10px 18px;letter-spacing:.05em}",
+    ".blocco-body{font-size:17pt;font-weight:700;color:#1A1916;padding:14px 18px;line-height:1.6}",
+    ".figura-wrap{margin:.3cm .8cm auto;text-align:center;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-bottom:.5cm}",
+    ".figura-label{font-size:18pt;font-weight:900;color:#bbb;letter-spacing:.08em;margin-bottom:14px}",
+    ".figura-svg svg{width:220px;height:176px}",
+    "@media print{body{background:#fff}.pg{margin:0;width:100%;min-height:0;page-break-after:always}}"
+  ].join(" ");
+
+  var fullHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Piano Operativo - ' + s.nome + '</title><style>' + css + '</style></head><body>' + pagesHtml + '<scr' + 'ipt>setTimeout(function(){window.print();},600);</scr' + 'ipt></body></html>';
+
+  var w = window.open("","_blank");
+  w.document.write(fullHtml);
+  w.document.close();
+}
+
+
+// ─── PROMEMORIA MENSILE ───────────────────────────────
+function checkReminder() {
+  if (!currentId && Object.keys(db.students).length === 0) return;
+  // Check all students
+  const students = Object.entries(db.students);
+  if (students.length === 0) return;
+  
+  const now = Date.now();
+  const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+  
+  let oldest = null;
+  let oldestName = '';
+  let oldestDays = 0;
+  
+  students.forEach(([id, s]) => {
+    const lastUpdate = s.lastFeedback || 0;
+    const diff = now - lastUpdate;
+    if (diff > THIRTY_DAYS && diff > oldestDays) {
+      oldest = id;
+      oldestName = s.nome;
+      oldestDays = diff;
+    }
+  });
+  
+  if (oldest) {
+    const days = Math.round(oldestDays / (24*60*60*1000));
+    const banner = document.getElementById('reminder-banner');
+    document.getElementById('reminder-text').textContent = 
+      days > 365 ? `Non hai ancora registrato sessioni per ${oldestName}` :
+      `Sono passati ${days} giorni dall'ultimo aggiornamento di ${oldestName}`;
+    banner.style.display = 'flex';
+    banner._studentId = oldest;
+  }
+}
+
+function dismissBanner() {
+  document.getElementById('reminder-banner').style.display = 'none';
+}
+
+function goToFeedback() {
+  const banner = document.getElementById('reminder-banner');
+  const sid = banner._studentId;
+  if (sid) {
+    document.getElementById('student-select').value = sid;
+    cambiaAlunno();
+  }
+  dismissBanner();
+  // Navigate to piano page and feedback tab
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-piano').classList.add('active');
+  document.querySelectorAll('.nav-btn')[0].classList.add('active');
+  // Switch to feedback tab
+  setTimeout(() => {
+    const fbBtn = document.querySelector('#page-piano .tab-btn:nth-child(3)');
+    if (fbBtn) showTab('feedback', fbBtn);
+  }, 100);
+}
+
+// ─── INIT ─────────────────────────────────────────────────
+load();
+populateSelect();
+checkReminder();
+document.getElementById('giorno').addEventListener('change', () => {
+  if (currentId) document.getElementById('piano-day').textContent = '— ' + document.getElementById('giorno').value;
+});
+</script>
+</body>
+</html>
